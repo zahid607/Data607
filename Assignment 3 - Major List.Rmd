@@ -1,0 +1,107 @@
+---
+title: "Assignment 3"
+author: "Mohammad Zahid Chowdhury"
+date: "02-13-2025"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 1.Using the 173 majors listed in fivethirtyeight.com’s College Majors dataset
+
+# Load the dataset:
+
+
+```{r}
+
+majors <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv")
+
+# Filter majors that contain "DATA" or "STATISTICS" (case insensitive)
+
+filtered_majors <- majors[grep("DATA|STATISTICS", trimws(majors$Major), ignore.case = TRUE), ]
+print(filtered_majors)
+
+```
+
+#2 Write code that transforms the data below:
+
+
+```{R}
+# Original vector of fruits
+fruits <- c("bell pepper", "bilberry", "blackberry", "blood orange",
+            "blueberry", "cantaloupe", "chili pepper", "cloudberry", 
+            "elderberry", "lime", "lychee", "mulberry", 
+            "olive", "salal berry")
+
+# Transform the list into the desired format
+formatted_fruits <- paste0('c(', paste(shQuote(fruits), collapse = ", "), ')')
+
+# Output the formatted list
+cat(formatted_fruits)
+
+```
+
+# 3 Describe, in words, what these expressions will match:
+
+
+# Here's a description of what each regular expression will match:
+
+# (.)\1\1: This expression matches any single character (represented by (.)) followed by the same character repeated twice (using \1\1 to refer to the first captured character).Essentially, it will match any three consecutive identical characters.Example: "aaa", "bbb", "111", etc.
+
+# "(.)(.)\\2\\1": This matches two characters (.) and (.), followed by the second captured character \2 and then the first captured character \1. So, it will match any pair of characters where the second character is repeated first, and the first character is repeated second.Example: "abab", "cdcd", etc.
+
+# (..)\1: This matches a pair of characters (..), followed by the same exact pair of characters again \1. It will match any four characters that consist of two identical pairs. Example: "aabb", "1212", "xyxy", etc.
+
+# "(.).\\1.\\1": This matches any single character (.), followed by any character (denoted by .), then the same character as the first one \1, another character, and finally the first character \1 again. Example: "ababa", "cdcdc", etc.
+
+# "(.)(.)(.).*\\3\\2\\1": This matches three characters, represented by (.)(.)(.), followed by any number of characters .*, and then it expects the third captured character \3, followed by the second captured character \2, and finally the first captured character \1. So, it will match a sequence of three characters followed by the reverse order of these three characters.Example: "abc...cba", "xyz...zyx", etc.
+
+
+
+#4 Construct regular expressions to match words that:
+
+
+# Start and end with the same character.
+# Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+# Contain one letter repeated in at least three places (e.g. "eleven" contains three "e"s.)
+
+
+# Words that start and end with the same character:
+# Regular expression: ^(\w).*\1$
+
+# Explanation: 
+
+# ^ asserts the start of the string.
+# (\w) captures the first character (using \w to match any alphanumeric character or underscore).
+# .* matches any number of characters (including none) in between.
+# \1 ensures that the last character matches the first captured character.
+# $ asserts the end of the string.
+# Example matches: "madam", "level", "radar".
+
+# Words that contain a repeated pair of letters (e.g., "church" contains "ch" repeated twice):
+# Regular expression: (.)\1.*\2\1
+# Explanation:
+# (.) captures any character.
+# \1 ensures that the first character is repeated right after.
+# .* matches any number of characters in between.
+# \2 captures the second pair of letters and repeats it using \1.
+# Example matches: "church", "deeded", "abccba".
+
+# 3. Words that contain one letter repeated in at least three places:
+# Regular expression: .*(\w).*?\1.*?\1.*
+
+# Explanation:
+# .* allows any number of characters before the repeated letter.
+# (\w) captures any alphanumeric character.
+# .*? matches any number of characters (non-greedy).
+# \1 ensures that the captured character repeats later in the string.
+# The third \1 ensures that the same character appears at least three times in the word.
+# Example matches: "eleven", "banana", "mississippi".
+
+
